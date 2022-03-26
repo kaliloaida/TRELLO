@@ -3,7 +3,6 @@ import icon from "../assets/icon.png";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
 const Main = styled.form`
   margin: 5rem auto;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
@@ -101,6 +100,7 @@ const Auth = () => {
 
   return (
     <>
+    
       <Main onSubmit={loginSubmitHandler}>
         <div>
           <img src={icon} alt="hear logos picture" /> <br />
@@ -132,7 +132,9 @@ const Auth = () => {
 
         <button type="submit">Login</button>
       </Main>
+      
     </>
   );
 };
 export default Auth;
+

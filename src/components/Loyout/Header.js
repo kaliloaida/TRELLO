@@ -11,11 +11,12 @@ import { useNavigate } from "react-router-dom";
 const Header = styled.header`
   width: 100%;
   height: 5rem;
-
+position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: gray;
+
   && div {
     display: flex;
     justify-content: space-around;

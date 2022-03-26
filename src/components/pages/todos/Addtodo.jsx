@@ -1,36 +1,37 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import iconpoints from '../../../assets/iconpoints.gif'
+import iconpoints from "../../../assets/iconpoints.gif";
 
 import styled from "styled-components";
 import { todoActions } from "../../../store/todo";
+import { useNavigationAway } from "../../../hooks/useCallbackPrompt";
+import LeavePage from "../../../UI/Modalka/LeavePage";
 
 const Container = styled.div`
-  margin-top: 40px;
+  margin: 100px 50px 50px 50px;
   background-color: #ebecf0;
-  width: 270px;
-  height: 90px;
-  margin-left: 100px;
+  width: 300px;
+  height: 120px;
+
   border-radius: 4px;
   .InputContainer {
     padding-top: 20px;
-    padding-left: 5px;
-   
+    padding-left: 10px;
+    width: inherit;
   }
-   .inputs-img{
+  .inputs-img {
     display: flex;
     justify-content: space-between;
     width: 100px;
-    
-   }
-   .anime{
-     width: 30px;
+  }
+  .anime {
+    width: 30px;
     margin-left: 20px;
-   }
+  }
 
-  
   input {
-    width: 250px;
+    margin-left: 20px;
+    width: 270px;
     height: 30px;
     outline: none;
     border: gray solid;
@@ -41,40 +42,33 @@ const Container = styled.div`
     &:focus {
       border: 3px solid #0079bf;
     }
-    .Button {
-      margin-top: 4px;
-      background-color: #0079bf;
-      margin-left: 5px;
-      border: none;
-      color: #fff;
-      height: 25px;
-      border-radius: 4px;
-    }
-    .ButtonX {
-      padding-top: 7px;
-      display: flex;
-      justify-content: space-between;
-      margin: 3px;
-      width: 160px;
-    }
-    .Div {
-      background-color: gray;
-      width: 250px;
-      height: 30px;
-      border-radius: 4px;
-      opacity: 50%;
-      && :hover {
-        box-shadow: 1px 1px 10px blue;
-      }
-    }
-    
   }
+`;
+const Button = styled.button`
+  margin: 15px 0px 20px 20px;
+  background-color: #0079bf;
+  border: none;
+  color: #fff;
+  height: 25px;
+  border-radius: 4px;
+`;
+const P = styled.p`
+  background-color: #18d96b;
+  margin: 30px;
+  padding: 5px;
+  width: 230px;
+  height: 30px;
+  border-radius: 4px;
+  box-shadow: 2px 5px 5px 5px #18d98b;
 `;
 
 const Addtodo = () => {
   const { showTodo } = useSelector((state) => state.todo);
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
+  const [showLeave, setShowLeave] = useState(false);
+  const [showDialogPrompt, confirmNavigation, cancelNavigation] =
+    useNavigationAway(showLeave);
 
   const showTodoHandler = () => {
     dispatch(todoActions.togleTodo());
@@ -102,34 +96,43 @@ const Addtodo = () => {
 
     setValue("");
   };
+  const inputChangeHandler = (event) => {
+    setValue(event.target.value);
+    if (event.target.value !== "") {
+      setShowLeave(true);
+    } else {
+      setShowLeave(false);
+    }
+  };
 
   return (
-    <Container>
-      {showTodo ? (
-        <div className="InputContainer">
-          <div className="inputs-img" >
-            <input
-            value={value}
-            type="text"
-            onChange={(event) => setValue(event.target.value)}
-          />
-          <img src={iconpoints} alt=""  className="anime" />
-          </div>
-          
-
-          <div className="ButtonX">
-            <button onClick={onSubmit} className="Button">
-              Добавить список
-            </button>
-            <button onClick={deleteHandler}>X</button>
-          </div>
-        </div>
-      ) : (
-        <div onClick={showTodoHandler} className="Div">
-          <p> + Добавьте еще одну кнопку</p>
-        </div>
+    <>
+      {showDialogPrompt && (
+        <LeavePage
+          confirmNavigation={confirmNavigation}
+          cancelNavigation={cancelNavigation}
+        />
       )}
-    </Container>
+      <Container>
+        {showTodo ? (
+          <div className="InputContainer">
+            <div className="inputs-img">
+              <input value={value} type="text" onChange={inputChangeHandler} />
+              <img src={iconpoints} alt="" className="anime" />
+            </div>
+
+            <Button onClick={onSubmit} className="Button">
+              Добавить список
+            </Button>
+            <Button onClick={deleteHandler}>X</Button>
+          </div>
+        ) : (
+          <div onClick={showTodoHandler}>
+            <P> + Добавьте еще одну кнопку</P>
+          </div>
+        )}
+      </Container>
+    </>
   );
 };
 

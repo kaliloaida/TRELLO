@@ -8,10 +8,11 @@ const List = styled.div`
   list-style: none;
   li {
     margin: 8px;
-    background-color: yellowgreen;
-    align-items: center;
-    padding: 10px 20px 10px;
+    background-color: #8AFF9D;
+    padding-left: 10px;
     border-radius: 10px;
+    font-style: italic;
+    font-family: 'Times New Roman', Times, serif;
   }
 `;
 
