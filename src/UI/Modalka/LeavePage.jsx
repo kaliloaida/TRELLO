@@ -38,7 +38,7 @@ const LeavePage = ({ confirmNavigation, cancelNavigation }) => {
   return (
     <BackdropModal>
     <Div>
-      <h1>Are sure leave this page? </h1>
+      <h1>Are you sure leave this page? </h1>
       <Button>
       <button onClick={confirmNavigation}>Yes</button>
       <button onClick={cancelNavigation}>Cancel</button>
